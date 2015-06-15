@@ -230,14 +230,57 @@ function evadePercent() {
   return floor(rand(1,100));
 }
 
+function combatStatusCodes($code,$html=FALSE) {
+  if ($html === true) {
+    switch($code) {
+      default:
+      case 0:
+        return "<span class='label label-danger'>Destroyed</span>";
+        break;
+    
+      case 1: 
+        return "<span class='label label-success'>Victorious</span>";
+        break;
+    
+      case 2:
+        return "<span class='label label-info'>Fled</span>";
+        break;
+    
+      case 3: 
+        return "<span class='label label-warning'>Fled</span>";
+        break;
+    }
+  } else {
+    switch($code) {
+      default:
+      case 0:
+        return "Destroyed";
+        break;
+  
+      case 1: 
+        return "Victorious";
+        break;
+  
+      case 2:
+        return "Fled";
+        break;
+  
+      case 3: 
+        return "Draw";
+        break;
+    }
+  }
+}
+
 function combatTick($firing, $evading, $tick) {
   $return = '';
   $damage = 0;
   /*
   This isn't really necessary, but we want to know who's doing what this tick
   */
-  $return['Result'] = "<ul>";
-  $opener = "<li>Tick $tick:</li>";
+
+  $return['Result'] = "";
+  $opener = "<h3>Tick $tick</h3><ul class='list-unstyled'>";
   $opener.= "<li>".$firing['Position']." is ".$firing['Status']."</li>";
   $opener.= "<li>".$evading['Position']." is ".$evading['Status']."</li>";
 
@@ -261,9 +304,10 @@ function combatTick($firing, $evading, $tick) {
   Sanity check that we might be able to remove but I'm lazy so...
   */
 
-  if ($evading['Armor'] <= 0) {
-    $return['Result'].= "<li>".$evading['Position']." is destroyed</li>";
-    $evading['Status'] = "Destroyed";
+  if (($evading['Damage'] == 0 && $firing['Damage'] == 0) && $tick === 100) {
+    $return['Result'].= "<li>Battle ends in a draw!</li>";
+    $evading['Status'] = 3;
+    $firing['Status'] = 3;
   } else {
     if ($evadeChance >= $evadePercent) {
       /*
@@ -285,10 +329,8 @@ function combatTick($firing, $evading, $tick) {
           Success! Set the results...
           */
           $return['Result'].= "<li><span class='label label-success'>Defender flees!</span></li>";
-          $evading['Status'] = 'Fled';
-          $evading['StatusCode'] = 2;
-          $firing['Status'] = 'Victorious';
-          $firing['StatusCode'] = 1;
+          $evading['Status'] = 2;
+          $firing['Status'] = 1;
         } else {
           /*
           And they failed to flee.
@@ -323,34 +365,33 @@ function combatTick($firing, $evading, $tick) {
               $return['Result'].= " is reloading</li>";
             }
           }
-            /*
-            If the defender's shields are up, attack those first
-            TODO: Switch this to a while loop and start dealing damage to armor
-            when shields fail
-            */
-            if($evading['Shields'] >= 0) {
-              $evading['Shields'] = $evading['Shields'] - $damage;
-            } else {
-              /*
-              Start working on armor once shields are down
-              */
-              $evading['Armor'] = $evading['Armor'] - $damage;
-            }
-          }
         }
-      }
-    if ($evading['Armor'] <= 0) {
-      /*
-      And prepare our return data if the defending ship is destroyed
-      */
-      $return['Result'].= "<li>".$evading['Position']." is destroyed at $tick seconds</li>";
-      $evading['Status'] = "Destroyed";
-      $evading['StatusCode'] = 0;
-      $firing['Status'] = "Victorious!";
-      $firing['StatusCode'] = 1;
-    } 
-  }
+      } 
+      
+      $return['Result'].= "<li>Attacking with $damage damage</li>";
 
+      if ($evading['Shields'] > 0) {
+        if ($damage > $evading['Shields']) {
+          $diff = $damage - $evading['Shields'];
+          $evading['Armor'] = $evading['Armor'] - $diff;
+          $evading['Shields'] = 0;
+        } else {
+          $evading['Shields'] = $evading['Shields'] - $damage;
+        }
+      } else {
+        $evading['Armor'] = $evading['Armor'] - $damage;
+      }
+
+      if ($evading['Armor'] <= 0) {
+        /*
+        And prepare our return data if the defending ship is destroyed
+        */
+        $return['Result'].= "<li>".$evading['Position']." is destroyed at $tick seconds</li>";
+        $evading['Status'] = 0;
+        $firing['Status'] = 1;
+      }
+    }
+  }
   $return['Result'].= "</ul>";
   /*
   Like parseOutfits(), combatTick() will add the ship arrays to the return
@@ -361,3 +402,27 @@ function combatTick($firing, $evading, $tick) {
   $return['Def'] = $evading;
   return $return;
 }
+
+function combatResultsTable($ship) {
+  $name = $ship['Name'];
+  $evasion = evasionChance($ship['Accel'],
+    $ship['Turn'],
+    $ship['Mass'],
+    $ship['EvasionModifier'])['Modified'];
+  $shields = $ship['Shields'];
+  $armor = $ship['Armor'];
+  $status = combatStatusCodes($ship['Status'],true);
+  return tableCells(array(
+    $name,
+    $shields,
+    $armor,
+    $evasion,
+    $status
+    ));
+}
+
+
+
+
+
+

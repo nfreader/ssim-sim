@@ -417,3 +417,21 @@ function isEmpty($string) {
 function credits($credits) {
   return number_format($credits + 0)." ".icon('certificate','credits');
 }
+
+/* pick
+ *
+ * Return a single value from an array. Useful for one-off situations (fluff
+ * text etc)
+ *
+ * @array (array) The array of things we're pulling from
+ *
+ * @return string
+ *
+ */
+
+function pick($list) {
+  if (!is_array($list)) {
+    $list = explode(',',$list);
+  }
+  return $list[floor(rand(0,count($list)-1))];
+}

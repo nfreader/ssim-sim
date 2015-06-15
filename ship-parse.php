@@ -25,8 +25,6 @@ foreach($ships as $ship) {
   */
   $ship = $outfits['Ship'];
 
-  var_dump($outfits);
-
   //Calculate evasion changes based on outfits that don't modify ship values
   $evasion = evasionChance($ship['Accel'],
     $ship['Turn'],

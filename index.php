@@ -36,7 +36,4 @@ require_once('header.php');
 
 <?php
 
-echo "Hello, this is ".pick(array('Becky','Erin','Kyle','Edna'))." speaking.";
-echo "Hello, this is ".pick('Robert,Eric,Kyle,David,Steve')." speaking.";
-
 require_once('footer.php');

@@ -25,6 +25,12 @@
       background: white;
       border: 1px solid #d9534f;
     }
+    .col-md-4.hover:hover {
+      background: rgb(251,255,145);
+    }
+    .row {
+      margin: 0 0 20px 0;
+    }
   </style>
 
 </head>

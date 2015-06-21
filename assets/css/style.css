@@ -1,0 +1,35 @@
+body {
+  background-image: linear-gradient( to right, #EB0012, #EB0012 16.66%, #EB7700 16.66%, #EB7700 33.32%, #EBCF00 33.32%, #EBCF00 49.98%, #00D942 49.98%, #00D942 66.64%, #0050D4 66.64%, #0050D4 83.3%, #8D00FF 83.3% );
+  background-size: 12.5% 2px;
+  background-repeat: repeat-x;
+  padding: 2px 0 0 0;
+}
+.label.label-primary {
+  color: #337ab7;
+  background: white;
+  border: 1px solid #337ab7;
+}
+.label.label-success {
+  color: #5cb85c;
+  background: white;
+  border: 1px solid #5cb85c;
+}
+.label.label-danger {
+  color: #d9534f;
+  background: white;
+  border: 1px solid #d9534f;
+}
+.combat-tick.hover:hover {
+  background: rgb(251,255,145);
+}
+.row {
+  margin: 0 0 20px 0;
+}
+
+.label a {
+  color: inherit;
+}
+
+.credits {
+  color: #EBCF00;
+}

@@ -1,6 +1,13 @@
 <?php
 
-require_once('header.php');
+require_once('header.php'); 
+?>
+
+<div class="page-header">
+  <h1>Combat simulator <small>Running 100 battle simulations</small></h1>
+</div>
+
+<?php
 
 /*
 Welcome to the Space Sim combat simulator.
@@ -118,7 +125,7 @@ while(
       //echo $results['Output'];
     }
   }
-  echo "<div class='col-md-4 hover' id='tick-$tick'>";
+  echo "<div class='col-md-4 combat-tick' id='tick-$tick'>";
   echo $results['Result'];
   echo "<span class='label label-primary'>Attacker shields: ".$atk['Shields']."</span> <span class='label label-primary'>Attacker armor: ".$atk['Armor']."</span><br>";
   echo "<span class='label label-primary'>Defender shields: ".$def['Shields']."</span> <span class='label label-primary'>Defender armor: ".$def['Armor']."</span><br>";

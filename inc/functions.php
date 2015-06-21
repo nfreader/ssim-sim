@@ -1,11 +1,11 @@
 <?php
 
 function directLoad($page) {
-  echo "<script>$('#game').load('".$page."');console.log('".$page."')</script>";
+  $return .=  "<script>$('#game').load('".$page."');console.log('".$page."')</script>";
 }
 
 function returnMsg($content) {
-  echo "<script>returnMsg('".$content."');</script>";
+  $return .=  "<script>returnMsg('".$content."');</script>";
 }
 
 /* Singular
@@ -296,14 +296,17 @@ function documentType($type) {
 //     } 
 // }
 
-function tableHeader($columns, $class='') {
-    $header = "<table class='table ".$class."'><thead><tr>";
-    foreach ($columns as $column) {
-        $header.= "<th>".$column."</th>";
-    }
-    $header.= "</thead><tbody>";
-    
-    return $header;
+function tableHeader($columns, $class='table table-bordered table-condensed') {
+  if (!is_array($columns)) {
+    $columns = explode(',',$columns);
+  }
+  $header = "<table class='table ".$class."'><thead><tr>";
+  foreach ($columns as $column) {
+      $header.= "<th>".$column."</th>";
+  }
+  $header.= "</thead><tbody>";
+  
+  return $header;
 }
 
 function tableCell($cell) {
@@ -421,9 +424,9 @@ function credits($credits) {
 /* pick
  *
  * Return a single value from an array. Useful for one-off situations (fluff
- * text etc)
+ * text)
  *
- * @array (array) The array of things we're pulling from
+ * @list (mixed) An array or comma separated list to pull an entry from
  *
  * @return string
  *
@@ -434,4 +437,65 @@ function pick($list) {
     $list = explode(',',$list);
   }
   return $list[floor(rand(0,count($list)-1))];
+}
+
+function bootstrapMenu($menu) {
+$return ='<nav class="navbar navbar-default navbar-static-top">';
+$return.='  <div class="container">';
+$return.='    <a class="navbar-brand" href="index.php">Space Sim Simulator</a>';
+$return.='    <ul class="nav navbar-nav">';
+      foreach ($menu as $submenu=>$items) {
+        if (is_array($items)) {
+          $return .=  "<li class='dropdown'>";
+          $return .=  "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>$submenu <span class='caret'></span></a>";
+          $return .=  "<ul class='dropdown-menu'>";
+          foreach ($items as $name=>$link) {
+            $return .=  "<li><a href='$link.php'>$name</a></li>";
+          }
+          $return .=  "</ul></li>";
+        } 
+      }
+$return.='    </ul>';
+$return.='  </div>';
+$return.='</nav>';
+return $return;
+}
+
+function governmentType($gov) {
+  switch ($gov) {
+    case 'R':
+    default:
+      return 'Regular';
+      break;
+    case 'I':
+      return 'Independent';
+      break;
+    case 'P':
+      return 'Pirate';
+      break;
+  }
+}
+
+function relationType($relation) {
+  switch($relation) {
+    case 'N':
+    default:
+      $return['Full'] = 'Neutral';
+      $return['CSS'] = 'info';
+      return $return;
+      break;
+
+    case 'A':
+      $return['Full'] = 'Allied';
+      $return['CSS'] = 'success';
+      return $return;
+      break;
+
+    case 'W':
+      $return['Full'] = 'At War';
+      $return['CSS'] = 'danger';
+      return $return;
+      break;
+
+  }
 }

@@ -2,6 +2,14 @@
 
 require_once('header.php');
 
+?>
+
+<div class="page-header">
+  <h1>Ship Parser</h1>
+</div>
+
+<?php
+
 //$origships = $ships;
 
 echo tableHeader(array(

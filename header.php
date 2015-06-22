@@ -32,11 +32,15 @@ $menu = array(
   ),
   'Cartography'=>array(
     'Galaxy Map'=>'galaxy-map',
-    'Galaxy Generator'=>'syst-spob-generator'
+    'Galaxy Generator'=>'syst-spob-generator',
+    'Galaxy List'=>'galaxy-list'
   ),
   'Government'=>array(
     'Government List'=>'govt-list',
     'Government Relations'=>'govt-relations'
+  ),
+  'Meta'=>array(
+    'Fingerprint Tester'=>'fingerprint'
   )
 );
 

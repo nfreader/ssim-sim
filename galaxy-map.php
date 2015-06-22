@@ -31,10 +31,10 @@ require_once('header.php');
       circle.id = circle.sysdata.id;
       x = parseInt(circle.sysdata.x);
       y = parseInt(circle.sysdata.y);
-      if (circle.sysdata.color) {
-        circle.graphics.beginFill(circle.sysdata.color2).drawCircle(x,y,5);
-        circle.graphics.beginFill(circle.sysdata.color).drawCircle(x,y,3);
-        circle.graphics.beginFill(circle.sysdata.color2).drawCircle(x,y,2);
+      if (circle.sysdata.hexcolor) {
+        circle.graphics.beginFill(circle.sysdata.hexcolor2).drawCircle(x,y,5);
+        circle.graphics.beginFill(circle.sysdata.hexcolor).drawCircle(x,y,3);
+        circle.graphics.beginFill(circle.sysdata.hexcolor2).drawCircle(x,y,2);
       } else {
         circle.graphics.beginFill('#FFF').drawCircle(x,y,5);
         circle.graphics.beginFill('#000').drawCircle(x,y,3);

@@ -4,10 +4,10 @@ class govt {
   public function getGovtStats() {
     $db = new database();
     $db->query("SELECT tbl_govt.*,
-      sum(tbl_pilot.balance) AS totalmemberbalance,
-      count(tbl_pilot.id) AS totalpilots,
-      count(tbl_syst.id) AS systems,
-      count(tbl_spob.id) AS spobs
+      sum(distinct tbl_pilot.balance) AS totalmemberbalance,
+      count(distinct tbl_pilot.id) AS totalpilots,
+      count(distinct tbl_syst.id) AS systems,
+      count(distinct tbl_spob.id) AS spobs
       FROM tbl_govt
       LEFT JOIN tbl_pilot ON tbl_govt.id = tbl_pilot.govt
       LEFT JOIN tbl_syst ON tbl_govt.id = tbl_syst.govt

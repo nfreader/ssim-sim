@@ -42,22 +42,21 @@ function spobType($type) {
   switch ($type) {
     case 'P':
     default:
-      $type = "Planet";
+      return "Planet";
       break;
 
     case 'M':
-      $type = "Moon";
+      return "Moon";
       break;
 
     case 'S':
-      $type = "Station";//That's no moon...
+      return "Station";//That's no moon...
       break;
 
     case 'N':
-      $type = "";
+      return "";
       break;
   }
-  return $type;
 }
 
 /* getSalt

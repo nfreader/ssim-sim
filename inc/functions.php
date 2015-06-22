@@ -91,21 +91,12 @@ function getSalt() {
  */
 
 function hexPrint($string, $prefix = "0x") {
-  $string = str_split(bin2hex(substr(sha1($string), 32)));
-  //First, we're taking the sha1 sum of the string.
-  //Next, we grab the first 32 characters of that...
-  //Convert it to hex and finally split the string into an array
-  $output = $prefix;
-  $i      = 1;
-  foreach ($string as $char) {
-    $output .= $char;
-    if ($i == 2) {
-      $output .= ':';//Add the separator...
-      $i = 0;
-    }
-    $i++;
+  $return = $prefix;
+  $array = str_split(substr(sha1($string),0,18),3);
+  foreach ($array as $val) {
+    $return.= ':'.$val;
   }
-  return substr($output, 0, -1);//And output the string minus the trailing ':'
+  return $return;
 }
 
 // function commodPrice() {

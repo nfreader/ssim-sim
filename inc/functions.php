@@ -22,9 +22,9 @@ function returnMsg($content) {
 
 function singular($value, $one, $many) {
   if ($value == 1) {
-    return $one;
+    return "$value $one";
   } else {
-    return $many;
+    return "$value $many";
   }
 }
 
@@ -55,6 +55,22 @@ function spobType($type) {
 
     case 'N':
       return "";
+      break;
+  }
+}
+
+function commodType($type) {
+  switch($type) {
+    case 'C':
+      return "Commodity";
+      break;
+
+    case 'M':
+      return "Mission Cargo";
+      break;
+
+    case 'S':
+      return "Special";
       break;
   }
 }
@@ -488,4 +504,26 @@ function relationType($relation) {
       break;
 
   }
+}
+
+function fuelCost($techlevel,$type) {
+  switch($type) {
+    case 'P':
+    default:
+      return floor(FUEL_BASE_COST/$techlevel);
+      break;
+
+    case 'S':
+    case 'N':
+      return floor(FUEL_BASE_COST/$techlevel) * .75;
+      break;
+
+    case 'M':
+      return floor(FUEL_BASE_COST/$techlevel) * 1.5;
+      break;
+  }
+}
+
+function commodCost($basecost,$commodtech,$porttech,$portsupply) {
+  return $basecost * ($commodtech/$porttech)/$portsupply*COMMOD_COST_MODIFIER;
 }

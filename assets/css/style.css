@@ -33,3 +33,23 @@ body {
 .credits {
   color: #EBCF00;
 }
+
+td[colspan] {
+  text-align: center;
+}
+
+tr.active td[colspan] {
+  text-align: inherit;
+}
+
+tr.commod.commod-C {
+  background: #FFFDEA;
+}
+
+tr.commod.commod-M {
+  background: #FFEAEA;
+}
+
+tr.commod.commod-S {
+  background: #EBFFEA;
+}

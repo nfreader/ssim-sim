@@ -8,28 +8,19 @@ require_once('header.php');
   <h1>Fingerprints</h1>
 </div>
 
-<?php 
-
-function hexPrint2($string, $prefix = "0x") {
-  $return = $prefix;
-  $array = str_split(substr(sha1($string),0,18),3);
-  foreach ($array as $val) {
-    $return.= ':'.$val;
-  }
-  return $return;
-}
-
-
-?>
-
 <pre>
 <?php
-  echo hexprint2('nfreader')."<br>";
-  echo hexprint2('qwertyuiop')."<br>";
-  echo hexprint2('asdfghjkl')."<br>";
-  echo hexprint2('zxcvbnm')."<br>";
-  echo hexprint2('qazwsxedcrfvtgbyhnujmiklop')."<br>";
-  echo hexprint2(time());
+  echo hexprint('nfreader')."<br>";
+  echo hexprint('qwertyuiop')."<br>";
+  echo hexprint('asdfghjkl')."<br>";
+  echo hexprint('zxcvbnm')."<br>";
+  echo hexprint('qazwsxedcrfvtgbyhnujmiklop')."<br>";
+  echo hexprint(time())."<br>";
+  $hex = explode(':','3f8:48b:193:5c1:571:ebd');
+  $hexcode = '';
+  foreach ($hex as $color) {
+    echo hexdec($color)."<br>";
+  }
 ?>
 </pre>
 

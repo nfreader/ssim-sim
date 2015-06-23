@@ -28,20 +28,25 @@ require_once('inc/config.php');
 $menu = array(
   'Combat'=>array(
     'Ship Parser'=>'ship-parse',
-    'Combat Simulator'=>'combat'
+    'Combat Simulator'=>'combat',
   ),
   'Cartography'=>array(
     'Galaxy Map'=>'galaxy-map',
     'Galaxy Generator'=>'syst-spob-generator',
-    'Galaxy List'=>'galaxy-list'
+    'Galaxy List'=>'galaxy-list',
   ),
   'Government'=>array(
     'Government List'=>'govt-list',
-    'Government Relations'=>'govt-relations'
+    'Government Relations'=>'govt-relations',
   ),
+  'Economy'=>array(
+    'Commodity List'=>'commod-list',
+    'Spawn Commodities'=>'commod-spawn',
+    'Price Calculator'=>'commod-calc',
+    ),
   'Meta'=>array(
-    'Fingerprint Tester'=>'fingerprint'
-  )
+    'Fingerprint Tester'=>'fingerprint',
+  ),
 );
 
 echo bootstrapMenu($menu);

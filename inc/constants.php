@@ -1,0 +1,5 @@
+<?php
+
+define('FUEL_BASE_COST',75);
+define('COMMOD_DISTRIBUTION',.3);
+define('COMMOD_COST_MODIFIER',500);

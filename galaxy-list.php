@@ -42,7 +42,11 @@ foreach ($spobs as $spob) : echo "<tr>"; if ($spob->parent == $syst->id) :
 
 ?>
 
-<td><?php echo $spob->name;?></td>
+<td>
+  <a href='viewspob.php?spob=<?php echo $spob->id;?>'>
+    <?php echo $spob->name;?>
+  </a>
+</td>
 <td><?php echo spobtype($spob->type);?></td>
 <td><?php echo $spob->techlevel;?></td>
 <td><?php echo $spob->homeworld;?></td>

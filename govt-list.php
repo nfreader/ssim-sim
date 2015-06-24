@@ -33,7 +33,7 @@ $govt = $govt->getGovtStats();
   echo tablecells(array(
     governmentType($gov->type),
     "<code>$gov->isoname</code",
-    $gov->homesyst,
+    $gov->govtseat,
     $gov->totalpilots,
     credits($gov->totalmemberbalance),
     "$gov->systems($gov->spobs)"

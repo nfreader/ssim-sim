@@ -10,6 +10,7 @@ class spob {
   public $fulltype;
   public $govtid;
   public $govtname;
+  public $govtiso;
   public $color;
   public $color2;
   public $commods;
@@ -26,6 +27,7 @@ class spob {
       $this->type = $spob->type;
       $this->fulltype = spobtype($spob->type);
       $this->govtid = $spob->govtid;
+      $this->govtiso = $spob->govtiso;
       $this->color = $spob->govtcolor;
       $this->color2 = $spob->govtcolor2;
       $this->govtseat = $spob->govtseat;
@@ -53,6 +55,7 @@ class spob {
       tbl_syst.name AS syst,
       tbl_govt.name AS govt,
       tbl_govt.id AS govtid,
+      tbl_govt.isoname AS govtiso,
       tbl_govt.color AS govtcolor,
       tbl_govt.color2 AS govtcolor2,
       IF (tbl_govt.govtseat = tbl_spob.id,TRUE,FALSE) AS govtseat

@@ -527,3 +527,7 @@ function fuelCost($techlevel,$type) {
 function commodCost($basecost,$commodtech,$porttech,$portsupply) {
   return $basecost * ($commodtech/$porttech)/$portsupply*COMMOD_COST_MODIFIER;
 }
+
+function govtLabel($name,$iso,$id) {
+  return "<span class='label gov $iso'><a href='govt-list.php#gov-$id'>$name</a></span>";
+}

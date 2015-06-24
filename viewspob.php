@@ -11,7 +11,7 @@ require_once('header.php');
   }
   $spob = filter_input(INPUT_GET,'spob',FILTER_SANITIZE_NUMBER_INT);
   $spob = new spob($spob,TRUE);
-  //var_dump($spob);
+
 ?>
 
 <div class="page-header">
@@ -27,15 +27,16 @@ require_once('header.php');
   <div class="col-md-4">
     <h2><?php echo $spob->fulltype;?><br><small>Port type</small></h2>
   </div>
-  <?php if ($spob->govtseat == true) : ?>
   <div class="col-md-4">
-    <h2><?php echo $spob->govtname;?><br><small>Government Seat</small></h2>
+    <h2>
+      <?php echo govtLabel($spob->govtname,$spob->govtiso,$spob->govtid);?>
+    <?php if($spob->govtseat == true) : ?>
+      <br><small>Government Seat</small>
+    <?php else : ?>
+      <br><small>Government</small>
+    <?php endif; ?>
+    </h2>
   </div>
-  <?php else : ?>
-  <div class="col-md-4">
-    <h2><?php echo $spob->govtname;?><br><small>Government Seat</small></h2>
-  </div>
-  <?php endif; ?>
 </div>
 
 <table class="table table-condensed table-bordered">

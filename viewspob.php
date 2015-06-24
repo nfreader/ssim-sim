@@ -21,13 +21,13 @@ require_once('header.php');
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <h2><?php echo $spob->techlevel;?><br><small>Techlevel</small></h2>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <h2><?php echo $spob->fulltype;?><br><small>Port type</small></h2>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <h2>
       <?php echo govtLabel($spob->govtname,$spob->govtiso,$spob->govtid);?>
     <?php if($spob->govtseat == true) : ?>
@@ -37,8 +37,25 @@ require_once('header.php');
     <?php endif; ?>
     </h2>
   </div>
+  <div class="col-md-3">
+    <h2>
+      <?php echo credits(fuelcost($spob->techlevel, $spob->type));?><br>
+      <small>Fuel Cost (per unit)</small>
+    </h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <h2>
+      <code><?php echo hexprint($spob->name.$spob->parentname);?></code><br>
+      <small>Bluespace Node</small>
+    </h2>
+  </div>
 </div>
 
+<div class="page-header">
+  <h2>Available Commodities</h2>
+</div>
 <table class="table table-condensed table-bordered">
   <thead>
     <tr>

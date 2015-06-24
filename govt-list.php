@@ -24,7 +24,7 @@ $govt = $govt->getGovtStats();
   <?php echo tableheader(array(
     'Type',
     'ISO-3166-1 alpha-2 code',
-    'Home System',
+    'Home Port',
     'Members',
     'Approximate wealth',
     'Controlled Systems (Controlled Ports)'

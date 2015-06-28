@@ -3,8 +3,8 @@
 $ships = array(
   array(
     'Name'=>'Shuttlecraft',
-    'Shields'=>25,
-    'Armor'=>100,
+    'shields'=>25,
+    'armor'=>100,
     'Outfits'=>array(
       array(
         'Name'=>'Basic Laser Cannon',
@@ -39,15 +39,15 @@ $ships = array(
         'Type'=>'DEC', //Decoration
       )    
     ),
-    'Accel'=>5,
-    'Turn'=>2,
-    'Mass'=>150,
-    'Flee'=>100, //Armor percentage at which they will attempt to flee (user defined)
+    'accel'=>5,
+    'turn'=>2,
+    'mass'=>150,
+    'Flee'=>100, //armor percentage at which they will attempt to flee (user defined)
   ),
   array(
     'Name'=>'Shuttlecraft (Modified blockade runner)',
-    'Shields'=>25,
-    'Armor'=>100,
+    'shields'=>25,
+    'armor'=>100,
     'Outfits'=>array(
       array(
         'Name'=>'Flare launcher',
@@ -74,32 +74,32 @@ $ships = array(
       array(
         'Name'=>'Afterburner',
         'Type'=>'PPE',
-        'Accel'=>.5,
+        'accel'=>.5,
       ),
       array(
         'Name'=>'Greeble',
         'Type'=>'DEC', //Decoration
       )    
     ),
-    'Accel'=>7.5,
-    'Turn'=>2,
-    'Mass'=>150,
-    'Flee'=>40, //Armor percentage at which they will attempt to flee (user   defined)
+    'accel'=>7.5,
+    'turn'=>2,
+    'mass'=>150,
+    'Flee'=>40, //armor percentage at which they will attempt to flee (user   defined)
   ),
   array(
     'Name'=>'Cargo Drone',
-    'Shields'=>10,
-    'Armor'=>10,
+    'shields'=>10,
+    'armor'=>10,
     'Outfits'=>array(),
-    'Accel'=>3.5,
-    'Turn'=>1,
-    'Mass'=>45,
-    'Flee'=>40, //Armor percentage at which they will attempt to flee (user   defined)
+    'accel'=>3.5,
+    'turn'=>1,
+    'mass'=>45,
+    'Flee'=>40, //armor percentage at which they will attempt to flee (user   defined)
   ),
     array(
     'Name'=>'Brixton-Class Frigate',
-    'Shields'=>250,
-    'Armor'=>400,
+    'shields'=>250,
+    'armor'=>400,
     'Outfits'=>array(
       array(
         'Name'=>'Flare launcher',
@@ -111,7 +111,7 @@ $ships = array(
       array(
         'Name'=>'Enhanced Shield Projector',
         'Type'=>'SEM', //Shield Enhancement
-        'Shields'=>.3,
+        'shields'=>.3,
       ),
       array(
         'Name'=>'Railgun',
@@ -121,9 +121,9 @@ $ships = array(
         'Reload'=>2
       ),  
     ),
-    'Accel'=>10,
-    'Turn'=>7,
-    'Mass'=>1500,
-    'Flee'=>40, //Armor percentage at which they will attempt to flee (user   defined)
+    'accel'=>10,
+    'turn'=>7,
+    'mass'=>1500,
+    'Flee'=>40, //armor percentage at which they will attempt to flee (user   defined)
   ),
 );

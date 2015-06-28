@@ -45,6 +45,9 @@ $menu = array(
     'Spawn Commodities'=>'commod-spawn',
     'Price Calculator'=>'commod-calc',
     ),
+  'Pilots'=>array(
+    'Pilot List'=>'pilot-list',
+  ),
   'Meta'=>array(
     'Fingerprint Tester'=>'fingerprint',
   ),

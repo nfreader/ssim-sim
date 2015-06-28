@@ -24,69 +24,6 @@ require_once('header.php');
     var newlinks = [];
     var oldX;
 
-    function systemDot(data,i) {
-      var circle = new createjs.Shape();
-      circle.sysdata = data;
-      circle.sysid = circle.sysdata.id;
-      circle.id = circle.sysdata.id;
-      x = parseInt(circle.sysdata.x);
-      y = parseInt(circle.sysdata.y);
-      if (circle.sysdata.hexcolor) {
-        circle.graphics.beginFill(circle.sysdata.hexcolor2).drawCircle(x,y,5);
-        circle.graphics.beginFill(circle.sysdata.hexcolor).drawCircle(x,y,3);
-        circle.graphics.beginFill(circle.sysdata.hexcolor2).drawCircle(x,y,2);
-      } else {
-        circle.graphics.beginFill('#FFF').drawCircle(x,y,5);
-        circle.graphics.beginFill('#000').drawCircle(x,y,3);
-        circle.graphics.beginFill('#FFF').drawCircle(x,y,2);
-      }
-      var text = new createjs.Text(circle.sysdata.name,"10px Helvetica",'#000');
-      text.x = circle.sysdata.x+10;
-      text.y = circle.sysdata.y-5;
-
-      var connections = ''+circle.sysdata.connections;
-      connections = connections.split(',');
-      console.log(circle.id,circle.sysid,connections);
-      stage.addChild(circle);
-      stage.addChild(text);
-    }
-
-    function jumpLine(data) {
-      dx = Math.abs(data.x*10)+5;
-      dy = Math.abs(data.y*10)+5;
-      ox = Math.abs(data.x*10)+5;
-      oy = Math.abs(data.y*10)+5;
-      var line = new createjs.Shape();
-      line.graphics.mt(ox,oy).setStrokeStyle(1).beginStroke('red').lt(dx,dy).lt(ox,oy);
-      stage.addChild(line);
-    }
-
-    function connectSystems(data) {
-      dx = data[0].x;
-      dy = data[0].y;
-      ox = data[1].x;
-      oy = data[1].y;
-      if (data[0].id == data[1].id) {
-        $('#sysname').text('You cannot link a system to itself!');
-        return false;
-      }
-      var line = new createjs.Shape();
-      line.graphics.setStrokeStyle(1).beginStroke('red').mt(dx,dy).lt(ox,oy);
-      stage.addChild(line);
-      stage.update();
-      var templink = {};
-      templink.origin = data[0].id;
-      templink.dest = data[1].id;
-      templink.type = 'R';
-      newlinks.push(templink);
-      var templink = {};
-      templink.origin = data[1].id;
-      templink.dest = data[0].id;
-      templink.type = 'R';
-      newlinks.push(templink);
-      $('.newlinkjson').text(JSON.stringify(newlinks));
-      $('#sysname').text('Linked '+data[0].name+ ' to '+data[1].name+'!');
-    }
 
     var stage = new createjs.Stage("demoCanvas");
     var sys = systems.data;
@@ -118,10 +55,10 @@ require_once('header.php');
       circle.id = circle.sysdata.id;
       x = parseInt(circle.sysdata.x);
       y = parseInt(circle.sysdata.y);
-      if (circle.sysdata.color) {
-        circle.graphics.beginFill(circle.sysdata.color2).drawCircle(x,y,5);
-        circle.graphics.beginFill(circle.sysdata.color).drawCircle(x,y,3);
-        circle.graphics.beginFill(circle.sysdata.color2).drawCircle(x,y,2);
+      if (circle.sysdata.hexcolor) {
+        circle.graphics.beginFill(circle.sysdata.hexcolor2).drawCircle(x,y,5);
+        circle.graphics.beginFill(circle.sysdata.hexcolor).drawCircle(x,y,3);
+        circle.graphics.beginFill(circle.sysdata.hexcolor2).drawCircle(x,y,2);
       } else {
         circle.graphics.beginFill('#FFF').drawCircle(x,y,5);
         circle.graphics.beginFill('#000').drawCircle(x,y,3);
@@ -133,10 +70,18 @@ require_once('header.php');
 
       var connections = ''+circle.sysdata.connections;
       connections = connections.split(',');
-      console.log(circle.id,circle.sysid,connections);
+      //console.log(circle.id,circle.sysid,connections);
+      var jumpline = new createjs.Shape();
+      for (var c = connections.length - 1; c >= 0; c--) {
+      //jumpline.graphics.setStrokeStyle(1).beginStroke('red').mt(circle.sysdata.x,circle.sysdata.y).lt(sysdots[connections[c]].sysdata.x,sysdots[connections[c]].sysdata.y);
+      //stage.addChild(jumpline);
+      console.log(sysdots[connections[c]]);
+      //console.log(connections[c]);
+    }
       stage.addChild(circle);
       stage.addChild(text);
       sysdots[circle.id] = circle;
+
     };
     stage.update();
 
@@ -145,7 +90,8 @@ require_once('header.php');
         linksys = [];
       }
     });
-    
+    //console.log(sysdots[2].sysdata.x,sysdots[2].sysdata.y);
+    //console.log(sysdots);
   }
   $(document).ready(function(){
     init();

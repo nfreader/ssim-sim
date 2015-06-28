@@ -2,6 +2,8 @@
 
 class spob {
 
+  private $json;
+
   public $id;
   public $name;
   public $parent;
@@ -17,7 +19,7 @@ class spob {
   public $techlevel;
   public $govtseat;
 
-  public function __construct($id=null,$full=false) {
+  public function __construct($id=null,$full=false,$json=false) {
     if ($id) :
       $spob = $this->getSpob($id);
       $this->id = $spob->id;
@@ -37,6 +39,9 @@ class spob {
         $commod = new commod();
         $this->commods = $commod->getSpobCommods($id);
       endif;
+    endif;
+    if ($json === TRUE) :
+      $this->json = TRUE;
     endif;
   }
 
@@ -65,6 +70,10 @@ class spob {
       WHERE tbl_spob.id = :id");
     $db->bind(':id',$id,PDO::PARAM_INT);
     $db->execute();
-    return $db->single();
+    if ($this->json === TRUE) :
+      return json_encode($db->single(),JSON_NUMERIC_CHECK);
+    else :
+      return $db->single();
+    endif;
   }
 }

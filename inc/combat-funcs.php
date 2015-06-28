@@ -1,7 +1,7 @@
 <?php
 
 function evasionChance($accel, $turn, $mass, $modifier = 1) {
-  $actual = floor(($accel * $turn / $mass) * 100);
+  $actual = floor(($accel * $turn / $mass) * 5);
   $modified = $actual * $modifier;
   $modified = $actual + $modified;
   $return['Actual'] = $actual;
@@ -9,38 +9,7 @@ function evasionChance($accel, $turn, $mass, $modifier = 1) {
   return $return;
 }
 
-function outfitType($type) {
-  switch($type) {
-      default:
-        $type = 'Undefined';
-        break;
 
-      case 'DEC':
-        $type = 'Decoration';
-        break;
-
-      case 'WPN':
-        $type = 'Weapon';
-        break;
-
-      case 'BCM':
-        $type = 'Ballistic Countermeasures';
-        break;
-
-      case 'ECM':
-        $type = 'Electronic Countermeasure';
-        break;
-
-      case 'PPE':
-        $type = 'Propulsion Enhancement';
-        break;
-
-      case 'SEM':
-        $type = 'Shield Enchancement';
-        break;
-    }
-  return $type;
-}
 
 function parseOutfits($ship) {
 
@@ -64,29 +33,29 @@ function parseOutfits($ship) {
     (start_val * modifier) + start_val
   
   and the only ship values we can modify are:
-    Shields
-    Armor
-    Accel
-    Turn
-    Mass
+    shields
+    armor
+    accel
+    turn
+    mass
   
   We also want to go ahead and calculate the evasion and stick it back in the 
   main ship array since all of the values we're modifying will affect that.
   */
 
-  $ship['BaseEvasion'] = evasionChance($ship['Accel'],
-    $ship['Turn'],$ship['Mass'])['Actual'];
+  $ship['BaseEvasion'] = evasionChance($ship['accel'],
+    $ship['turn'],$ship['mass'])['Actual'];
 
   /* 
   Aaaaaand we'll go ahead and save the base starting points for our values so
   we can compare them later on.
   */
 
-  $ship['BaseShields'] = $ship['Shields'];
-  $ship['BaseArmor'] = $ship['Armor'];
-  $ship['BaseAccel'] = $ship['Accel'];
-  $ship['BaseTurn'] = $ship['Turn'];
-  $ship['BaseMass'] = $ship['Mass'];
+  $ship['Baseshields'] = $ship['shields'];
+  $ship['Basearmor'] = $ship['armor'];
+  $ship['Baseaccel'] = $ship['accel'];
+  $ship['Baseturn'] = $ship['turn'];
+  $ship['Basemass'] = $ship['mass'];
 
   /*
   Set some starting points...
@@ -108,7 +77,7 @@ function parseOutfits($ship) {
   $return['Damage'] = 0;
 
   $content = "<ul class='list-unstyled'>";
-  foreach ($ship['Outfits'] as $outf) {
+  foreach ($ship['outfits'] as $outf) {
 
     /*
       Now that we're in the foreach loop, let's start grabbing the value
@@ -117,66 +86,66 @@ function parseOutfits($ship) {
       outfit purchases!
     */
 
-    if (array_key_exists('Shields', $outf)) {
-      $shieldMod = $shieldMod + $outf['Shields'];
+    if (array_key_exists('shields', $outf)) {
+      $shieldMod = $shieldMod + $outf['shields'];
     }
 
-    if (array_key_exists('Armor', $outf)) {
-      $armorMod = $armorMod + $outf['Armor'];
+    if (array_key_exists('armor', $outf)) {
+      $armorMod = $armorMod + $outf['armor'];
     }
 
-    if (array_key_exists('Accel', $outf)) {
-      $accelMod = $accelMod + $outf['Accel'];
+    if (array_key_exists('accel', $outf)) {
+      $accelMod = $accelMod + $outf['accel'];
     }
 
-    if (array_key_exists('Turn', $outf)) {
-      $turnMod = $turnMod + $outf['Turn'];
+    if (array_key_exists('turn', $outf)) {
+      $turnMod = $turnMod + $outf['turn'];
     }
 
-    if (array_key_exists('Mass', $outf)) {
-      $massMod = $massMod + $outf['Mass'];
+    if (array_key_exists('mass', $outf)) {
+      $massMod = $massMod + $outf['mass'];
     }
 
     /*
     Which means everything down here is just set dressing for the most part.
     */
 
-    $type = outfitType($outf['Type']);
+    $type = outfittype($outf['type']);
 
-    $content.= "<li>".$outf['Name']." ($type) ";
+    $content.= "<li>".$outf['name']." ($type) ";
 
-    if($outf['Type'] == 'DEC') {
+    if($outf['type'] == 'DEC') {
       //It's so pretty! But so useless!
-    } elseif ($outf['Type'] == 'WPN') {
-      if (array_key_exists('Damage', $outf)) {
-        $return['Damage'] = $return['Damage']+ $outf['Damage'];
-        $content.= "(Damage: ".$outf['Damage'].") ";
+    } elseif ($outf['type'] == 'WPN') {
+      if (array_key_exists('data1', $outf)) {
+        $return['Damage'] = $return['Damage']+ $outf['data1'];
+        $content.= "(Damage: ".$outf['data1'].") ";
       }
-      if (array_key_exists('Reload', $outf) && $outf['Reload'] > 1) {
-        if ($outf['Projectile'] == 'E') {
-          $content.="(recharge: ".$outf['Reload'].") ";
+      if (array_key_exists('data2', $outf) && $outf['data2'] > 1) {
+        if ($outf['data2'] == 'ENG') {
+          $content.="(recharge: ".$outf['data2'].") ";
         } else {
-          $content.="(reload: ".$outf['Reload'].") ";
+          $content.="(reload: ".$outf['data2'].") ";
         }
       }
-    } elseif ($outf['Type'] == 'ECM') {
-      if (array_key_exists('Evasion', $outf)) {
-        $return['Evasion'] = $outf['Evasion'] + $return['Evasion'];
+    } elseif ($outf['type'] == 'ECM') {
+      if (array_key_exists('data1', $outf)) {
+        $return['Evasion'] = $outf['data1'] + $return['Evasion'];
       }
-      if (array_key_exists('Reload', $outf) && $outf['Reload'] > 1) {
-        $content.="(recharge: ".$outf['Reload'].") ";
+      if (array_key_exists('data2', $outf) && $outf['data2'] > 1) {
+        $content.="(recharge: ".$outf['data2'].") ";
       }
-    } elseif ($outf['Type'] == 'BCM') {
-      if (array_key_exists('Evasion', $outf)) {
-        $return['Evasion'] = $outf['Evasion'] + $return['Evasion'];
+    } elseif ($outf['type'] == 'BCM') {
+      if (array_key_exists('data1', $outf)) {
+        $return['Evasion'] = $outf['data1'] + $return['Evasion'];
       }
-      if (array_key_exists('Reload', $outf) && $outf['Reload'] > 1) {
-        $content.="(reload: ".$outf['Reload'].") ";
+      if (array_key_exists('data2', $outf) && $outf['data2'] > 1) {
+        $content.="(reload: ".$outf['data2'].") ";
       }
       if (array_key_exists('Ammo', $outf)) {
         $content.="(ammo: ".$outf['Ammo'].") ";
       }
-    } elseif ($outf['Type'] == 'PPE') {
+    } elseif ($outf['type'] == 'PPE') {
 
     }
     $content.= "</li>";
@@ -193,11 +162,11 @@ function parseOutfits($ship) {
   Now that we're out of the foreach loop, we can start modifying ship values
   */
 
-  $ship['Shields'] = ($shieldMod * $ship['Shields']) + $ship['Shields'];
-  $ship['Armor'] = ($armorMod * $ship['Armor']) + $ship['Armor'];
-  $ship['Accel'] = ($accelMod * $ship['Accel']) + $ship['Accel'];
-  $ship['Turn'] = ($turnMod * $ship['Turn']) + $ship['Turn'];
-  $ship['Mass'] = ($massMod * $ship['Mass']) + $ship['Mass'];
+  $ship['shields'] = ($shieldMod * $ship['shields']) + $ship['shields'];
+  $ship['armor'] = ($armorMod * $ship['armor']) + $ship['armor'];
+  $ship['accel'] = ($accelMod * $ship['accel']) + $ship['accel'];
+  $ship['turn'] = ($turnMod * $ship['turn']) + $ship['turn'];
+  $ship['mass'] = ($massMod * $ship['mass']) + $ship['mass'];
 
   /*
   And let's add the evasion modifier to the ship array
@@ -290,9 +259,9 @@ function combatTick($firing, $evading, $tick) {
   */
 
   $evadeChance = evasionChance(
-    $evading['Accel'],
-    $evading['Turn'],
-    $evading['Mass'],
+    $evading['accel'],
+    $evading['turn'],
+    $evading['mass'],
     $evading['EvasionModifier']
   )['Modified'];
   /*
@@ -316,7 +285,7 @@ function combatTick($firing, $evading, $tick) {
       $return['Result'].= "<li><span class='label label-success'>";
       $return['Result'].= "Evaded! Chance was $evadeChance, ";
       $return['Result'].= "percent was $evadePercent</span></li>";
-      if (($evading['Armor'] / $evading['BaseArmor']) * 100 
+      if (($evading['armor'] / $evading['Basearmor']) * 100 
         <= $evading['Flee']){
         /*
         If they evaded with their armor below the player-defined flee 
@@ -351,17 +320,17 @@ function combatTick($firing, $evading, $tick) {
         Loop through the attackers outfits and calculate the damage from 
         anything that's a weapon
         */
-        if($weapon['Type'] == 'WPN') {
+        if($weapon['type'] == 'WPN') {
           if ($tick % $weapon['Reload'] === 0) {
             $damage = $damage + $weapon['Damage'];
             $return['Result'].= "<li>Took $damage damage from ";
-            $return['Result'].= $weapon['Name']."</li>";
+            $return['Result'].= $weapon['name']."</li>";
           } else {
             if ($weapon['Projectile'] == 'E') {
-              $return['Result'].= "<li>".$weapon['Name'];
+              $return['Result'].= "<li>".$weapon['name'];
               $return['Result'].= " is recharging</li>";
             } else {
-              $return['Result'].= "<li>".$weapon['Name'];
+              $return['Result'].= "<li>".$weapon['name'];
               $return['Result'].= " is reloading</li>";
             }
           }
@@ -370,19 +339,19 @@ function combatTick($firing, $evading, $tick) {
       
       $return['Result'].= "<li>Attacking with $damage damage</li>";
 
-      if ($evading['Shields'] > 0) {
-        if ($damage > $evading['Shields']) {
-          $diff = $damage - $evading['Shields'];
-          $evading['Armor'] = $evading['Armor'] - $diff;
-          $evading['Shields'] = 0;
+      if ($evading['shields'] > 0) {
+        if ($damage > $evading['shields']) {
+          $diff = $damage - $evading['shields'];
+          $evading['armor'] = $evading['armor'] - $diff;
+          $evading['shields'] = 0;
         } else {
-          $evading['Shields'] = $evading['Shields'] - $damage;
+          $evading['shields'] = $evading['shields'] - $damage;
         }
       } else {
-        $evading['Armor'] = $evading['Armor'] - $damage;
+        $evading['armor'] = $evading['armor'] - $damage;
       }
 
-      if ($evading['Armor'] <= 0) {
+      if ($evading['armor'] <= 0) {
         /*
         And prepare our return data if the defending ship is destroyed
         */
@@ -404,13 +373,13 @@ function combatTick($firing, $evading, $tick) {
 }
 
 function combatResultsTable($ship) {
-  $name = $ship['Name'];
-  $evasion = evasionChance($ship['Accel'],
-    $ship['Turn'],
-    $ship['Mass'],
+  $name = $ship['name'];
+  $evasion = evasionChance($ship['accel'],
+    $ship['turn'],
+    $ship['mass'],
     $ship['EvasionModifier'])['Modified'];
-  $shields = $ship['Shields'];
-  $armor = $ship['Armor'];
+  $shields = $ship['shields'];
+  $armor = $ship['armor'];
   $status = combatStatusCodes($ship['Status'],true);
   return tableCells(array(
     $name,

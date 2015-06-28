@@ -11,7 +11,7 @@ require_once('header.php');
   }
   $spob = filter_input(INPUT_GET,'spob',FILTER_SANITIZE_NUMBER_INT);
   $spob = new spob($spob,TRUE);
-
+  
 ?>
 
 <div class="page-header">

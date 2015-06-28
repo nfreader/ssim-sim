@@ -14,15 +14,16 @@ require_once('header.php');
 
 echo tableHeader(array(
   'Name',
-  'Shields',
-  'Armor',
-  'Accel',
-  'Turn',
-  'Mass',
+  'shields',
+  'armor',
+  'accel',
+  'turn',
+  'mass',
   'Evasion Chance',
   'Outfits'
 ));
 foreach($ships as $ship) {
+  var_dump($ship);
   /*
   Basically, we're passing the ship array to this function that will modify
   it and...
@@ -34,48 +35,48 @@ foreach($ships as $ship) {
   $ship = $outfits['Ship'];
 
   //Calculate evasion changes based on outfits that don't modify ship values
-  $evasion = evasionChance($ship['Accel'],
-    $ship['Turn'],
-    $ship['Mass'],
+  $evasion = evasionChance($ship['accel'],
+    $ship['turn'],
+    $ship['mass'],
     $outfits['Evasion']);
 
   /*
   Just fluff for the table here
   */
 
-  if ($ship['Shields'] != $ship['BaseShields']) {
-    $shields = $ship['Shields']."<br><span class='label label-primary'>";
-    $shields.= "(".$ship['BaseShields']." base)</span>";
+  if ($ship['shields'] != $ship['Baseshields']) {
+    $shields = $ship['shields']."<br><span class='label label-primary'>";
+    $shields.= "(".$ship['Baseshields']." base)</span>";
   } else {
-    $shields = $ship['Shields'];
+    $shields = $ship['shields'];
   }
 
-  if ($ship['Armor'] != $ship['BaseArmor']) {
-    $armor = $ship['Armor']."<br><span class='label label-primary'>";
-    $armor.= "(".$ship['BaseArmor']." base)";
+  if ($ship['armor'] != $ship['Basearmor']) {
+    $armor = $ship['armor']."<br><span class='label label-primary'>";
+    $armor.= "(".$ship['Basearmor']." base)";
   } else {
-    $armor = $ship['Armor'];
+    $armor = $ship['armor'];
   }
 
-  if ($ship['Accel'] != $ship['BaseAccel']) {
-    $accel = $ship['Accel']."m/s<sup>2</sup><br><span class='label label-primary'>";
-    $accel.= "(".$ship['BaseAccel']."m/s<sup>2</sup> base)";
+  if ($ship['accel'] != $ship['Baseaccel']) {
+    $accel = $ship['accel']."m/s<sup>2</sup><br><span class='label label-primary'>";
+    $accel.= "(".$ship['Baseaccel']."m/s<sup>2</sup> base)";
   } else {
-    $accel = $ship['Accel']."m/s<sup>2</sup>";
+    $accel = $ship['accel']."m/s<sup>2</sup>";
   }
 
-  if ($ship['Turn'] != $ship['BaseTurn']) {
-    $turn = $ship['Turn']."m/s<sup>2</sup><br><span class='label label-primary'>";
-    $turn.= "(".$ship['BaseTurn']."m/s<sup>2</sup> base)";
+  if ($ship['turn'] != $ship['Baseturn']) {
+    $turn = $ship['turn']."m/s<sup>2</sup><br><span class='label label-primary'>";
+    $turn.= "(".$ship['Baseturn']."m/s<sup>2</sup> base)";
   } else {
-    $turn = $ship['Turn']."m/s<sup>2</sup>";
+    $turn = $ship['turn']."m/s<sup>2</sup>";
   }
 
-  if ($ship['Mass'] != $ship['BaseMass']) {
-    $mass = $ship['Mass']." tons<br><span class='label label-primary'>";
-    $mass.= "(".$ship['BaseMass']." base)";
+  if ($ship['mass'] != $ship['Basemass']) {
+    $mass = $ship['mass']." tons<br><span class='label label-primary'>";
+    $mass.= "(".$ship['Basemass']." base)";
   } else {
-    $mass = $ship['Mass']." tons";
+    $mass = $ship['mass']." tons";
   }
 
   if ($evasion['Modified'] != $ship['BaseEvasion']) {

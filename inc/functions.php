@@ -114,6 +114,15 @@ function hexPrint($string, $prefix = "0x") {
   return $return;
 }
 
+function vesselregistration($registration) {
+  $array = str_split($registration,3);
+  $return = '';
+  foreach ($array as $val) {
+    $return.= '-'.$val;
+  }
+  return substr($return,1,11);
+}
+
 // function commodPrice() {
 //   $types = array(
 //     'Food',
@@ -530,4 +539,58 @@ function commodCost($basecost,$commodtech,$porttech,$portsupply) {
 
 function govtLabel($name,$iso,$id) {
   return "<span class='label gov $iso'><a href='govt-list.php#gov-$id'>$name</a></span>";
+}
+
+function vesselStatus($status) {
+  switch($status) {
+    default:
+    case 'A':
+      $return['status'] = 'Active';
+      $return['class'] = 'success';
+      break;
+
+    case 'D':
+      $return['status'] = 'Destroyed';
+      $return['class'] = 'warning';
+      break;
+
+    case 'N':
+      $return['status'] = 'Not active';
+      $return['class'] = '';
+      break;
+  }
+  return $return;
+}
+
+function outfitType($type) {
+  switch($type) {
+      default:
+        $type = 'Undefined';
+        break;
+
+      case 'DEC':
+        $type = 'Decoration';
+        break;
+
+      case 'WPN':
+        $type = 'Weapon';
+        break;
+
+      case 'BCM':
+        $type = 'Ballistic Countermeasures';
+        break;
+
+      case 'ECM':
+        $type = 'Electronic Countermeasure';
+        break;
+
+      case 'PPE':
+        $type = 'Propulsion Enhancement';
+        break;
+
+      case 'SEM':
+        $type = 'Shield Enchancement';
+        break;
+    }
+  return $type;
 }

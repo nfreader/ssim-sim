@@ -1,4 +1,7 @@
 <?php
+if (empty($wide)) {
+  $wide = false;
+}
 $time = explode(' ', microtime());
 $start = $time[1] + $time[0];
 require_once('inc/config.php');
@@ -44,6 +47,7 @@ $menu = array(
     'Commodity List'=>'commod-list',
     'Spawn Commodities'=>'commod-spawn',
     'Price Calculator'=>'commod-calc',
+    'Mission List'=>'misn-list',
     ),
   'Pilots'=>array(
     'Pilot List'=>'pilot-list',
@@ -53,12 +57,16 @@ $menu = array(
   ),
 );
 
-echo bootstrapMenu($menu);
+echo bootstrapMenu($menu,$wide);
 
 ?>
 
-<div class="container">
-<ul>
+<?php if (!empty($wide)) : ?>
+<div class="container-fluid">
 
-</ul>
+<?php else: ?>
+
+<div class="container">
+
+<?php endif; ?>
 

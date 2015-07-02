@@ -9,9 +9,13 @@ require_once('header.php');
   if(empty($_GET['spob'])) {
     die('No port specified');
   }
+  if (!empty($_GET['spawncommod'])) {
+    $commod = new commod();
+    echo $commod->spawncommods(filter_input(INPUT_GET,'spob',FILTER_SANITIZE_NUMBER_INT));
+  }
   $spob = filter_input(INPUT_GET,'spob',FILTER_SANITIZE_NUMBER_INT);
   $spob = new spob($spob,TRUE);
-  
+
 ?>
 
 <div class="page-header">
@@ -65,13 +69,22 @@ require_once('header.php');
     </tr>
   </thead>
   <tbody>
+  <?php if (!$spob->commods) : ?>
+    <tr>
+      <td colspan="3">No commodities. <a href="?spob=<?php echo $spob->id;?>&spawncommod=true">Spawn?</a></td>
+    </tr>
+  <?php else : ?>
   <?php foreach ($spob->commods as $commod) : ?>
     <tr class='commod commod-<?php echo $commod->type;?>'>
-      <td><?php echo $commod->name;?></td>
+      <td>
+        <a href='commod-list.php#<?php echo $commod->id;?>'>
+          <?php echo $commod->name;?>
+        </a>
+      </td>
       <td><?php echo $commod->supply;?></td>
       <td><?php echo credits($commod->cost);?></td>
     </tr>
-  <?php endforeach; ?>
+  <?php endforeach; endif;?>
   </tbody>
 </table>
 

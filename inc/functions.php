@@ -22,9 +22,9 @@ function returnMsg($content) {
 
 function singular($value, $one, $many) {
   if ($value == 1) {
-    return "$value $one";
+    return number_format($value)." $one";
   } else {
-    return "$value $many";
+    return number_format($value)." $many";
   }
 }
 
@@ -454,9 +454,13 @@ function pick($list) {
   return $list[floor(rand(0,count($list)-1))];
 }
 
-function bootstrapMenu($menu) {
+function bootstrapMenu($menu,$wide=false) {
 $return ='<nav class="navbar navbar-default navbar-static-top">';
-$return.='  <div class="container">';
+if ($wide == true) {
+$return.='  <div class="container-fluid">';
+} else {
+$return.='  <div class="container">'; 
+}
 $return.='    <a class="navbar-brand" href="index.php">Space Sim Simulator</a>';
 $return.='    <ul class="nav navbar-nav">';
       foreach ($menu as $submenu=>$items) {
@@ -541,6 +545,10 @@ function govtLabel($name,$iso,$id) {
   return "<span class='label gov $iso'><a href='govt-list.php#gov-$id'>$name</a></span>";
 }
 
+function spoblink($id,$name) {
+  return "<a href='viewspob.php?spob=$id'>$name</a>";
+}
+
 function vesselStatus($status) {
   switch($status) {
     default:
@@ -593,4 +601,22 @@ function outfitType($type) {
         break;
     }
   return $type;
+}
+
+function alert($msg,$level) {
+  switch($level) {
+    default: 
+    case 0:
+      $class = 'info';
+      break;
+
+    case 1:
+      $class = 'success';
+      break;
+
+    case 2:
+      $class = 'danger';
+      break;
+  }
+  return "<div class='alert alert-$class'>$msg</div>";
 }

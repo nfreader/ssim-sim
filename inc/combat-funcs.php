@@ -2,8 +2,7 @@
 
 function evasionChance($accel, $turn, $mass, $modifier = 1) {
   $actual = floor(($accel * $turn / $mass) * 5);
-  $modified = $actual * $modifier;
-  $modified = $actual + $modified;
+  $modified = $actual + $actual * ($modifier/100);
   $return['Actual'] = $actual;
   $return['Modified'] = $modified;
   return $return;

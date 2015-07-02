@@ -62,7 +62,11 @@ $db->query("INSERT INTO tbl_commodspob (spob, commod, supply, lastchange) VALUES
     $db->bind(':spob',$spob->id,PDO::PARAM_INT);
     $db->bind(':commod',$commod->id,PDO::PARAM_INT);
     $db->bind(':supply',$supply,PDO::PARAM_INT);
-    $db->execute();
+    try {
+      $db->execute();
+    } catch(Exception $e) {
+      echo alert('Error: '.$e->getMessage(),2);
+    }
   ?>
 
   <?php elseif ($commod->type == 'C' && $commod->techlevel > $spob->techlevel) : ?>

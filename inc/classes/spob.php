@@ -45,10 +45,28 @@ class spob {
     endif;
   }
 
+  public function createSpob($name,$parent,$techlevel) {
+    $commod = new commod();
+    $comod->spawnCommods($id);
+  }
+
   public function listSpobs() {
     $db = new database();
-    $db->query("SELECT tbl_spob.*,
-    CASE WHEN tbl_spob.can_be_homeworld IS TRUE THEN 'Yes' ELSE '' END AS homeworld FROM tbl_spob");
+    $db->query("SELECT
+      tbl_spob.*,
+      tbl_syst.name AS syst,
+      tbl_govt.name AS govt,
+      tbl_govt.id AS govtid,
+      tbl_govt.isoname AS govtiso,
+      tbl_govt.color AS govtcolor,
+      tbl_govt.color2 AS govtcolor2,
+      tbl_govt.type AS govttype,
+      IF (tbl_govt.govtseat = tbl_spob.id,TRUE,FALSE) AS govtseat,
+      CASE WHEN tbl_spob.can_be_homeworld IS TRUE THEN 'Yes' ELSE ''
+      END AS homeworld
+      FROM tbl_spob
+      LEFT JOIN tbl_syst ON tbl_spob.parent = tbl_syst.id
+      LEFT JOIN tbl_govt ON tbl_syst.govt = tbl_govt.id");
     $db->execute();
     return $db->resultset();
   }

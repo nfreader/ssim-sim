@@ -53,3 +53,7 @@ tr.commod.commod-M {
 tr.commod.commod-S {
   background: #EBFFEA;
 }
+
+td.num {
+  text-align: right;
+}

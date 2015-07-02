@@ -1,5 +1,5 @@
 <?php
-
+$wide = true;
 require_once('header.php');
 
 ?>
@@ -26,7 +26,7 @@ require_once('header.php');
 </div>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <h2> 
       <a href='viewpilot.php?pilot=<?php echo $vessel->pilot;?>'>
       <?php echo $vessel->pilotname;?>
@@ -34,13 +34,13 @@ require_once('header.php');
     <small>Registrant</small>
     </h2>
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <h2>
       <code><?php echo vesselregistration($vessel->registration);?></code><br>
       <small>Registration</small>
     </h2>
   </div>
-  <div class="col-md-4">
+  <div class="col-sm-4">
     <h2>
       <span class='label label-<?php echo vesselstatus($vessel->status)['class'];?>'>
         <?php echo vesselstatus($vessel->status)['status'];?>
@@ -49,6 +49,8 @@ require_once('header.php');
   </div>
 </div>
 
+<div class="row">
+<div class="col-sm-6">
 <div class="page-header">
   <h2>Cargo</h2>
 </div>
@@ -69,7 +71,8 @@ require_once('header.php');
   <?php endforeach; ?>
   </tbody>
 </table>
-
+</div>
+<div class="col-sm-6">
 <div class="page-header">
   <h2>Outfits</h2>
 </div>
@@ -92,10 +95,10 @@ require_once('header.php');
   <?php endforeach; ?>
   </tbody>
 </table>
-
+</div>
+</div>
 <?php 
 echo tableHeader(array(
-  'Name',
   'shields',
   'armor',
   'accel',
@@ -167,7 +170,6 @@ echo tableHeader(array(
   }
 
   echo tableCells(array(
-    $ship['name'],
     $shields,
     $armor,
     $accel,

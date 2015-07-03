@@ -548,6 +548,9 @@ function govtLabel($name,$iso,$id) {
 function spoblink($id,$name) {
   return "<a href='viewspob.php?spob=$id'>$name</a>";
 }
+function pilotlink($id,$name) {
+  return "<a href='viewpilot.php?pilot=$id'>$name</a>";
+}
 
 function vesselStatus($status) {
   switch($status) {
@@ -619,4 +622,14 @@ function alert($msg,$level) {
       break;
   }
   return "<div class='alert alert-$class'>$msg</div>";
+}
+
+function commodTransactionType($transaction) {
+  switch($transaction) {
+    case 'S':  return 'Sold'; break;
+    case 'B':  return 'Bought'; break;
+    case 'P':  return 'Pirated'; break;
+    case 'J':  return 'Jettisoned'; break;
+    case 'D':  return 'Delivered mission cargo'; break;
+  }
 }

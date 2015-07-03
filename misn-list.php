@@ -31,7 +31,11 @@ $misns = $misn->getMissions();
     <?php foreach ($misns as $misn) : ?>
     <tr class='commod commod-<?php echo $misn->type;?>'>
       <td class='num'><?php echo singular($misn->amount,'ton','tons');?></td>
-      <td><?php echo $misn->commodname;?></td>
+      <td>
+        <a href='commod-list.php#<?php echo $misn->commod;?>'>
+          <?php echo $misn->commodname;?>
+        </a>
+      </td>
       <td><?php echo spoblink($misn->pickup,$misn->pickupname);?></td>
       <td><?php echo spoblink($misn->dest,$misn->destname);?></td>
       <td class='num'><?php echo credits($misn->reward);?></td>

@@ -6,8 +6,7 @@ require_once('header.php');
 
 ?>
 
-
-<?php 
+<?php
 
 $commod = new commod();
 $commods = $commod->listCommods(); ?>
@@ -17,11 +16,14 @@ $commods = $commod->listCommods(); ?>
 <div class="col-md-2">
 
 <div class="list-group">
-  <a href='commod-list.php' class='list-group-item'>
+  <a href="commod-list.php" class="list-group-item">
     <strong>Commodities</strong>
   </a>
+  <a href="commod-graphs.php" class="list-group-item load">
+    Commodity Graphs
+  </a>
     <?php foreach ($commods as $commod): ?>
-    <a href="viewcommod.php?commod=<?php echo $commod->id;?>" class="list-group-item load">
+    <a href="viewcommod.php?commod=<?php echo $commod->id;?>" class="list-group-item commod load">
       <?php echo $commod->name; ?>
     </a>
     <?php endforeach; ?>
@@ -77,10 +79,9 @@ $commods = $commod->listCommods(); ?>
 </div>
 
 <script>
-  $('a.load').click(function(event){
+  $('a.commod').click(function(event){
     event.preventDefault();
     var url = $(this).attr('href');
-    $('#content').empty().load(url);
     var commod = url.replace('viewcommod.php?commod=','');
     if (commod != '') {
       history.pushState(null,null,'commod-list.php#'+commod);

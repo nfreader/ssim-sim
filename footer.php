@@ -12,5 +12,14 @@
 </footer>
 </div>
 
+<script>
+
+$('a.load').click(function(){
+  event.preventDefault();
+  var link = $(this).attr('href');
+  $('#content').empty().load(link);
+});
+
+</script>
 
 </body>

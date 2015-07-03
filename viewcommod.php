@@ -17,14 +17,19 @@ require_once('inc/config.php');
 </div>
 
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <h1><?php echo $commod->techlevel;?><br>
     <small>Techlevel</small>
     </h1>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <h1><?php echo credits($commod->avgcost);?><br>
     <small>Average Cost</small>
+    </h1>
+  </div>
+  <div class="col-md-2">
+    <h1><?php echo $commod->missions;?><br>
+    <small>Missions</small>
     </h1>
   </div>
   <div class="col-md-3">
@@ -38,7 +43,9 @@ require_once('inc/config.php');
     </h1>
   </div>
 </div>
-
+<div class='page-header'>
+  <h2>Ports</h2>
+</div>
 <table class="table table-condensed table-bordered">
   <thead>
     <tr>
@@ -48,18 +55,48 @@ require_once('inc/config.php');
     </tr>
   </thead>
   <tbody>
-
     <?php if (!$commod->spobs) : ?>
-      <tr>
-        <td colspan="3">No ports.</td>
-      </tr>
+    <tr>
+      <td colspan="3">No ports.</td>
+    </tr>
     <?php else : ?>
     <?php foreach ($commod->spobs as $spob) : ?>
-      <tr class='commod commod-<?php echo $commod->type;?>'>
-        <td><?php echo spoblink($spob->id, $spob->name);?></td>
-        <td><?php echo singular($spob->supply,'ton','tons');?></td>
-        <td><?php echo credits($spob->cost);?></td>
-      </tr>
+    <tr class='commod commod-<?php echo $commod->type;?>'>
+      <td><?php echo spoblink($spob->id, $spob->name);?></td>
+      <td><?php echo singular($spob->supply,'ton','tons');?></td>
+      <td><?php echo credits($spob->cost);?></td>
+    </tr>
     <?php endforeach; endif;?>
-    </tbody>
-  </table>
+  </tbody>
+</table>
+
+<div class='page-header'>
+  <h2>Last five transactions</h2>
+</div>
+<table class="table table-condensed table-bordered">
+  <thead>
+    <tr>
+      <th>Pilot</th>
+      <th>Location</th>
+      <th>Action</th>
+      <th>Amount</th>
+      <th>Value</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php foreach($commod->transactions as $transact) : ?>
+    <tr>
+      <td><?php echo pilotlink($transact->pilot,$transact->pilotname);?></td>
+      <td><?php echo $transact->locationname;?></td>
+      <td><?php echo commodTransActionType($transact->action);?></td>
+      <td><?php echo singular($transact->amount,'ton','tons'); ?></td>
+      <td><?php echo credits($transact->value); ?></td>
+      <td><?php echo $transact->timestamp;?></td>
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>
+<?php 
+
+var_dump($commod); ?>

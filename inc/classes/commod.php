@@ -85,10 +85,12 @@ class commod {
       CASE WHEN tbl_commod.type = 'C' THEN
       floor(avg(distinct tbl_commodspob.supply)) ELSE tbl_commod.basesupply END AS avgsupply,
       CASE WHEN tbl_commod.type = 'C' THEN
-      floor(avg(tbl_commod.basecost * (tbl_commod.techlevel/tbl_spob.techlevel)/tbl_commodspob.supply * $COMMOD_COST_MODIFIER)) ELSE tbl_commod.basecost END AS avgcost
+      floor(avg(tbl_commod.basecost * (tbl_commod.techlevel/tbl_spob.techlevel)/tbl_commodspob.supply * $COMMOD_COST_MODIFIER)) ELSE tbl_commod.basecost END AS avgcost,
+      COUNT(distinct ssim_misn.id) AS missions
       FROM tbl_commod
       LEFT JOIN tbl_commodspob ON tbl_commod.id = tbl_commodspob.commod
       LEFT JOIN tbl_spob ON tbl_commodspob.spob = tbl_spob.id
+      LEFT JOIN tbl_misn ON tbl_commod.id = tbl_misn.commod
       WHERE tbl_commod.id = :commod
       GROUP BY tbl_commod.id;");
     $db->bind('commod',$commod,PDO::PARAM_INT);
@@ -106,7 +108,40 @@ class commod {
     $db->bind('commod',$commod,PDO::PARAM_INT);
     $db->execute();
     $result->spobs = $db->resultset();
+    $db->query("SELECT ssim_commodtransact.*,
+      (CASE ssim_commodtransact.onspob
+      WHEN FALSE
+      THEN ssim_syst.name
+      ELSE ssim_spob.name
+      END) AS locationname,
+      ssim_pilot.name AS pilotname
+      FROM ssim_commodtransact
+      LEFT JOIN ssim_commod ON ssim_commodtransact.commod = ssim_commod.id
+      LEFT JOIN ssim_spob ON ssim_commodtransact.location = ssim_spob.id
+      LEFT JOIN ssim_syst ON ssim_commodtransact.location = ssim_syst.id
+      LEFT JOIN ssim_pilot ON ssim_commodtransact.pilot = ssim_pilot.id
+      WHERE ssim_commod.id = 1
+      ORDER BY ssim_commodtransact.timestamp DESC
+      LIMIT 0,5;");
+    $db->execute();
+    $result->transactions = $db->resultset();
     return $result;
+  }
+
+  public function generateCommodStats(){
+    $db = new database();
+    $db->query("INSERT INTO tbl_commodstats 
+      (stats, timestamp) VALUES (:stats, NOW())");
+    foreach($this->listcommods() as $commod) :
+      $stat['commodname'] = $commod->name;
+      $stat['commod'] = $commod->id;
+      $stat['avgcost'] = $commod->avgcost;
+      $stat['supply'] = $commod->totalsupply;
+      $stat['avgsupply'] = $commod->avgsupply;
+      $stats[] = $stat;
+    endforeach;
+    $db->bind(':stats',json_encode($stats,JSON_NUMERIC_CHECK));
+    $db->execute();
   }
 
 }

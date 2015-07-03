@@ -31,7 +31,7 @@ class misn {
         echo "Pirate port destination! Reward doubled! ";
       }
 
-      if ($dest->techlevel < $commod->techlevel || $pickup->techlevel < $commod->techlevel) :
+      if ($pickup->techlevel < $commod->techlevel) :
         echo "Aborting mission creation.<br>";
       else :
         echo "Take $amount tons of $commod->name from $pickup->name to $dest->name for $reward credits<br>";
@@ -57,6 +57,7 @@ class misn {
       tbl_misn.dest,
       tbl_misn.pickup,
       tbl_commod.type,
+      tbl_misn.commod,
       floor((tbl_commod.basecost * (tbl_commod.techlevel/dest.techlevel)/tbl_commodspob.supply * $COMMOD_COST_MODIFIER)) AS unitprice,
       CASE WHEN tbl_commod.type = 'C' THEN 
       (SELECT unitprice) * tbl_misn.amount ELSE tbl_commod.basecost * tbl_misn.amount END AS actualvalue,

@@ -11,7 +11,6 @@ require_once('header.php');
   }
   $vessel = filter_input(INPUT_GET,'vessel',FILTER_SANITIZE_NUMBER_INT);
   $vessel = new vessel($vessel,TRUE,FALSE);
-
 ?>
 
 <div class="page-header">
@@ -26,7 +25,7 @@ require_once('header.php');
 </div>
 
 <div class="row">
-  <div class="col-sm-4">
+  <div class="col-sm-3">
     <h2> 
       <a href='viewpilot.php?pilot=<?php echo $vessel->pilot;?>'>
       <?php echo $vessel->pilotname;?>
@@ -34,18 +33,32 @@ require_once('header.php');
     <small>Registrant</small>
     </h2>
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-3">
     <h2>
       <code><?php echo vesselregistration($vessel->registration);?></code><br>
       <small>Registration</small>
     </h2>
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-3">
     <h2>
       <span class='label label-<?php echo vesselstatus($vessel->status)['class'];?>'>
         <?php echo vesselstatus($vessel->status)['status'];?>
       </span><br>
     <small>Status</small></h2>
+  </div>
+  <div class="col-sm-3">
+    <strong>Fuel tank</strong> (<?php echo "$vessel->fuel/$vessel->fueltank ".icon('square');?>)
+    <div class="progress">
+      <div class="progress-bar progress-bar-danger" style="width: <?php echo $vessel->fuelgraph;?>%"></div>
+    </div>
+    <strong>Shields</strong> <?php echo icon('magnet');?>
+    <div class="progress">
+      <div class="progress-bar progress-bar-primary" style="width: <?php echo $vessel->shieldgraph;?>%"></div>
+    </div>
+    <strong>Armor</strong> <?php echo icon('th');?>
+    <div class="progress">
+      <div class="progress-bar progress-bar-warning" style="width: <?php echo $vessel->armorgraph;?>%"></div>
+    </div>
   </div>
 </div>
 
@@ -65,7 +78,11 @@ require_once('header.php');
   <tbody>
   <?php foreach ($vessel->cargo as $cargo) : ?>
     <tr class="commod commod-<?php echo $cargo->type;?>">
-      <td><?php echo $cargo->name;?></td>
+      <td>
+        <a href='commod-list.php#<?php echo $cargo->id;?>'>
+          <?php echo $cargo->name;?>
+        </a>
+      </td>
       <td><?php echo singular($cargo->tons,'ton','tons');?></td>
     </tr>
   <?php endforeach; ?>
@@ -179,7 +196,6 @@ echo tableHeader(array(
     $outfits['Output']
   ));
 echo tableFooter();
-var_dump($ship);
 ?>
 
 <?php

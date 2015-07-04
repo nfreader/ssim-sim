@@ -19,9 +19,9 @@ $commods = $commod->listCommods(); ?>
   <a href="commod-list.php" class="list-group-item">
     <strong>Commodities</strong>
   </a>
-  <a href="commod-graphs.php" class="list-group-item load">
+<!--   <a href="commod-graphs.php" class="list-group-item load">
     Commodity Graphs
-  </a>
+  </a> -->
     <?php foreach ($commods as $commod): ?>
     <a href="viewcommod.php?commod=<?php echo $commod->id;?>" class="list-group-item commod load">
       <?php echo $commod->name; ?>

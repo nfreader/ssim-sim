@@ -5,7 +5,7 @@ require_once('header.php');
 ?>
 
 <div class="page-header">
-  <h1>Spawn Commodities</h1>
+  <h1>Commodity Price Calculator</h1>
 </div>
 
 <?php 

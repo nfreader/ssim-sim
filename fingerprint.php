@@ -11,8 +11,6 @@ require_once('header.php');
 <pre>
 <?php
 
-  $misn = new misn();
-  $misns = $misn->generatemissions(100);
   
 ?>
 </pre>

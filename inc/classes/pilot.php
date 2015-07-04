@@ -11,22 +11,28 @@ class pilot{
   public $vessel; 
   public $status; 
   public $vesselname;
-  public $shipname;
-  public $shipwright;
-  public $class;
-  public $integrity;
-  public $armor;
-  public $shields;
-  public $cargobay;
-  public $fueltank;
-  public $fuel;
   public $govtname;
   public $govtisoname;
-  public $govtcolor;
+  public $locationtype;
 
   public function __construct($id=NULL,$full=NULL) {
     $this->full = $full;
     if ($id) {
+      $pilot = $this->getPilot($id);
+      $this->id = $pilot->id;
+      $this->name = $pilot->name;
+      $this->govt = $pilot->govt;
+      $this->balance = $pilot->balance;
+      $this->vessel = $pilot->vessel; 
+      $this->status = $pilot->status; 
+      $this->vesselname = $pilot->vesselname;
+      $this->govtname = $pilot->govtname;
+      $this->govtisoname = $pilot->govtiso;
+      $this->location = $pilot->location;
+      $this->locationname = $pilot->locationname;
+      $this->locationtype = $pilot->locationtype;
+      $this->statuschange = $pilot->statuschange;
+      $this->fingerprint = hexprint($pilot->name.$pilot->creationdate);
       if ($this->full) {
 
       }
@@ -34,7 +40,29 @@ class pilot{
   }
 
   public function getPilot($id) {
-
+    $db = new database();
+    $query = 
+    $db->query("SELECT ssim_pilot.*,
+      ssim_vessel.name AS vesselname,
+      ssim_vessel.fuel,
+      ssim_govt.name AS govtname,
+      ssim_govt.isoname AS govtiso,
+      CASE
+      WHEN ssim_pilot.status = 'O' THEN ssim_syst.name
+      WHEN ssim_pilot.status = 'L' THEN ssim_spob.name
+      WHEN ssim_pilot.status = 'N' THEN NULL
+      WHEN ssim_pilot.status = 'B' THEN NULL
+      END AS locationname,
+      ssim_spob.type AS locationtype
+      FROM ssim_pilot
+      LEFT JOIN ssim_vessel ON ssim_pilot.vessel = ssim_vessel.id
+      LEFT JOIN ssim_govt ON ssim_pilot.govt = ssim_govt.id
+      LEFT JOIN ssim_spob ON ssim_pilot.location = ssim_spob.id
+      LEFT JOIN ssim_syst ON ssim_pilot.location = ssim_syst.id
+      WHERE ssim_pilot.id = :id");
+    $db->bind(':id',$id,PDO::PARAM_INT);
+    $db->execute();
+    return $db->single();
   }
 
   public function listPilots() {

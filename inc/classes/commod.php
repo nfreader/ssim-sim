@@ -120,9 +120,10 @@ class commod {
       LEFT JOIN ssim_spob ON ssim_commodtransact.location = ssim_spob.id
       LEFT JOIN ssim_syst ON ssim_commodtransact.location = ssim_syst.id
       LEFT JOIN ssim_pilot ON ssim_commodtransact.pilot = ssim_pilot.id
-      WHERE ssim_commod.id = 1
+      WHERE ssim_commod.id = :commod
       ORDER BY ssim_commodtransact.timestamp DESC
       LIMIT 0,5;");
+    $db->bind('commod',$commod,PDO::PARAM_INT);
     $db->execute();
     $result->transactions = $db->resultset();
     return $result;
@@ -142,6 +143,13 @@ class commod {
     endforeach;
     $db->bind(':stats',json_encode($stats,JSON_NUMERIC_CHECK));
     $db->execute();
+  }
+
+  public function getCommodStatData(){
+    $db = new database();
+    $db->query("SELECT * FROM tbl_commodstats LIMIT 0,5");
+    $db->execute();
+    return $db->resultset();
   }
 
 }

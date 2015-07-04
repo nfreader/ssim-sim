@@ -180,12 +180,12 @@ function landVerb($type, $tense = 'future') {
 
       case 'S':
       case 'N':
-        $type = "docked at";
+        $type = "docked with";
         break;
     }
   }
 
-  return $type;
+  return ucfirst($type);
 }
 
 function fuelMeter($fuel, $max, $fuelMeter) {
@@ -562,7 +562,7 @@ function vesselStatus($status) {
 
     case 'D':
       $return['status'] = 'Destroyed';
-      $return['class'] = 'warning';
+      $return['class'] = 'danger';
       break;
 
     case 'N':

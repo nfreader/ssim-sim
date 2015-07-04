@@ -97,6 +97,3 @@ require_once('inc/config.php');
   <?php endforeach; ?>
   </tbody>
 </table>
-<?php 
-
-var_dump($commod); ?>

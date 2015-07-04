@@ -22,6 +22,10 @@ class vessel {
   public $turn;
   public $accel;
   public $mass;
+  public $fuelgraph;
+  public $fuel;
+  public $fueltank;
+  public $shieldgraph;
 
   public function __construct($id=NULL,$full=false,$json=FALSE) {
     $this->json = $json;
@@ -45,6 +49,11 @@ class vessel {
       $this->mass = $vessel->mass;
       $this->armor = $vessel->armor;
       $this->shields = $vessel->shields;
+      $this->fuel = $vessel->fuel;
+      $this->fueltank = $vessel->fueltank;
+      $this->fuelgraph = $vessel->fuelgraph;
+      $this->shieldgraph = $vessel->shieldgraph;
+      $this->armorgraph = $vessel->armorgraph;
         if ($this->full) {
           $this->cargo = $this->getVesselCargo($id);
           $this->outfits = $this->getVesselOutfits($id);
@@ -64,6 +73,10 @@ class vessel {
       tbl_ship.mass,
       tbl_ship.armor,
       tbl_ship.shields,
+      tbl_ship.fueltank,
+      (tbl_vessel.fuel/tbl_ship.fueltank) * 100 AS fuelgraph,
+      ((tbl_ship.shields - tbl_vessel.shielddam) / tbl_ship.shields) * 100 AS shieldgraph,
+      ((tbl_ship.armor - tbl_vessel.armordam) / tbl_ship.armor) * 100 AS armorgraph,
       tbl_pilot.name AS pilotname
       FROM tbl_vessel
       LEFT JOIN tbl_ship ON tbl_vessel.ship = tbl_ship.id
@@ -88,11 +101,11 @@ class vessel {
 
   public function getVesselOutfits($id) {
     $db = new database();
-    $db->query("SELECT ssim_vesseloutfit.*,
-      ssim_outfit.*
-      FROM ssim_vesseloutfit
-      LEFT JOIN ssim_outfit ON ssim_vesseloutfit.outfit = ssim_outfit.id
-      WHERE ssim_vesseloutfit.vessel = :id");
+    $db->query("SELECT tbl_vesseloutfit.*,
+      tbl_outfit.*
+      FROM tbl_vesseloutfit
+      LEFT JOIN tbl_outfit ON tbl_vesseloutfit.outfit = tbl_outfit.id
+      WHERE tbl_vesseloutfit.vessel = :id");
     $db->bind(':id',$id,PDO::PARAM_INT);
     $db->execute();
     return $db->resultset();

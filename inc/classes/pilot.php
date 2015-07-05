@@ -50,8 +50,6 @@ class pilot{
       CASE
       WHEN ssim_pilot.status = 'O' THEN ssim_syst.name
       WHEN ssim_pilot.status = 'L' THEN ssim_spob.name
-      WHEN ssim_pilot.status = 'N' THEN NULL
-      WHEN ssim_pilot.status = 'B' THEN NULL
       END AS locationname,
       ssim_spob.type AS locationtype
       FROM ssim_pilot

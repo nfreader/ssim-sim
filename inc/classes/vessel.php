@@ -111,5 +111,32 @@ class vessel {
     return $db->resultset();
   }
 
+  function parseOutfits($id){
+    $vessel = $this->getVessel($id);
+    $vessel->outfits = $this->getVesselOutfits($id);
+    //Calculate base evasion
+    //((accel*turn)/mass) * 5
+    $vessel->baseEvasion = round((($vessel->accel*$vessel->turn)/$vessel->mass) * 5,2);
+    $vessel->evasionModifier = 0;
+    $vessel->firepower = 0;
+    foreach($vessel->outfits AS $outf) {
+      if ($outf->type == 'ECM') {
+        if ($outf->data1) {
+        $vessel->evasionModifier = $vessel->evasionModifier + ($vessel->baseEvasion + ($outf->data1 / 100));
+        $outf->reload = $outf->data2;
+        }
+      }
+      if ($outf->type == 'WPN') {
+        if($outf->data1) {
+          $vessel->firepower = $vessel->firepower + $outf->data1;
+        }
+        if ($outf->data2 == 1) {
+          $outf->reload = NULL;
+        } 
+      }
+    }
+    $vessel->Evasion = $vessel->baseEvasion*$vessel->evasionModifier;
+    return $vessel;
+  }
 
 }

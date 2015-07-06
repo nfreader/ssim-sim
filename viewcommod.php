@@ -92,7 +92,7 @@ require_once('inc/config.php');
       <td><?php echo commodTransActionType($transact->action);?></td>
       <td><?php echo singular($transact->amount,'ton','tons'); ?></td>
       <td><?php echo credits($transact->value); ?></td>
-      <td><?php echo $transact->timestamp;?></td>
+      <td><?php echo timestamp($transact->timestamp);?></td>
     </tr>
   <?php endforeach; ?>
   </tbody>

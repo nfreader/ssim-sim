@@ -188,42 +188,6 @@ function landVerb($type, $tense = 'future') {
   return ucfirst($type);
 }
 
-function fuelMeter($fuel, $max, $fuelMeter) {
-  $meter = "<strong>Fuel</strong> $fuel " .singular($fuel, 'jump', 'jumps')." remaining";
-  if ($fuelMeter < 25 ){
-    $meter .= "<div class='progress fuel panic'><div class='progress-bar' style='width: ".$fuelMeter."%'></div></div>";
-  } else {
-  $meter .= "<div class='progress fuel'><div class='progress-bar' style='width: ".$fuelMeter."%'></div></div>";
-  }
-  return $meter;
-}
-
-function shieldMeter($shields) {
-  $meter = "<strong>Shields</strong>";
-  if ($shields < 25) {
-  $meter .= "<div class='progress shields panic'><div class='progress-bar progress-bar-info' style='width: ".$shields."%'></div></div>";
-  } else {
-    $meter .= "<div class='progress shields'><div class='progress-bar progress-bar-info' style='width: ".$shields."%'></div></div>";
-  }
-  return $meter;
-}
-
-function armorMeter($armor) {
-  $meter = "<strong>Hull Integrity</strong>";
-  if ($armor < 25) {
-    $meter .= "<div class='progress armor panic'><div class='progress-bar progress-bar-warning' style='width: ".$armor."%'></div></div>";
-  } else {
-    $meter .= "<div class='progress armor'><div class='progress-bar progress-bar-warning' style='width: ".$armor."%'></div></div>";
-  }
-  return $meter;
-}
-
-function cargoMeter($cargometer, $cargo, $cargohold) {
-  $meter = "<strong>Cargo Hold</strong> ($cargo of $cargohold tons used)";
-  $meter .= "<div class='progress cargo'><div class='progress-bar progress-bar-success' style='width: ".$cargometer."%'></div></div>";
-  return $meter;
-}
-
 /* Function icon
  *
  * Renders the HTML for a Font Awesome icon!
@@ -399,6 +363,12 @@ function shipValue($id, $date, $cost) {
   return $cost*.85; 
   //TODO: Make the trade-in value relative to the date the ship was purchased.
   //OH MY GOD MAKE IT RELATIVE TO THE SPOB TECHLEVEL!
+}
+
+function timestamp($date) {
+  $actualtime = date(SSIM_DATE,strtotime($date));
+  $relativeTime = relativeTime($date);
+  return "<span data-toggle='tooltip' title='$actualtime'>$relativeTime</span>";
 }
 
 function relativeTime($date, $postfix = ' ago', $fallback = 'F Y') 

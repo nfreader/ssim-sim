@@ -57,6 +57,26 @@ class vessel {
         if ($this->full) {
           $this->cargo = $this->getVesselCargo($id);
           $this->outfits = $this->getVesselOutfits($id);
+          $this->baseEvasion = round((($this->accel*$this->turn)/$this->mass) * 5,2);
+              $this->evasionModifier = 0;
+              $this->firepower = 0;
+              foreach($this->outfits AS $outf) {
+                if ($outf->type == 'ECM') {
+                  if ($outf->data1) {
+                  $this->evasionModifier = $this->evasionModifier + ($this->baseEvasion * ($outf->data1 / 100));
+                  $outf->reload = $outf->data2;
+                  }
+                }
+                if ($outf->type == 'WPN') {
+                  if($outf->data1) {
+                    $this->firepower = $this->firepower + $outf->data1;
+                  }
+                  if ($outf->data2 == 1) {
+                    $outf->reload = NULL;
+                  } 
+                }
+              }
+              $this->Evasion = $this->baseEvasion + $this->evasionModifier;
         }
     endif;
   }
@@ -122,7 +142,7 @@ class vessel {
     foreach($vessel->outfits AS $outf) {
       if ($outf->type == 'ECM') {
         if ($outf->data1) {
-        $vessel->evasionModifier = $vessel->evasionModifier + ($vessel->baseEvasion + ($outf->data1 / 100));
+        $vessel->evasionModifier = $vessel->evasionModifier + ($vessel->baseEvasion * ($outf->data1 / 100));
         $outf->reload = $outf->data2;
         }
       }
@@ -135,7 +155,7 @@ class vessel {
         } 
       }
     }
-    $vessel->Evasion = $vessel->baseEvasion*$vessel->evasionModifier;
+    $vessel->Evasion = $vessel->baseEvasion + $vessel->evasionModifier;
     return $vessel;
   }
 

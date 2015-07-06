@@ -7,12 +7,10 @@ require_once('header.php');
 <div class="page-header">
   <h1>Fingerprints</h1>
 </div>
-<?php
 
-$vessel = new vessel();
-var_dump($vessel->parseOutfits(1));
-  
-?>
+<h1>
+Current in-game time: <?php echo date(SSIM_DATE,time());?>
+</h1>
 
 <?php
 
